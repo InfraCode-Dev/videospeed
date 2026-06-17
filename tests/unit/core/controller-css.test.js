@@ -4,6 +4,9 @@
  * Only user customizations are stored in the `customCSS` setting.
  */
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import {
   installChromeMock,
   cleanupChromeMock,
@@ -48,6 +51,13 @@ describe('ControllerCSS', () => {
     expect(css.includes('--vsc-domain: "netflix.com"')).toBe(true);
     expect(css.includes('--vsc-domain: "chatgpt.com"')).toBe(true);
     expect(css.includes('--vsc-domain: "drive.google.com"')).toBe(true);
+  });
+
+  it('inject.css pins the absolute controller host origin', () => {
+    const css = readFileSync(join(process.cwd(), 'src/styles/inject.css'), 'utf8');
+    expect(css).toMatch(/vsc-controller\s*\{[^}]*position:\s*absolute;/s);
+    expect(css).toMatch(/vsc-controller\s*\{[^}]*top:\s*0;/s);
+    expect(css).toMatch(/vsc-controller\s*\{[^}]*left:\s*0;/s);
   });
 
   it('DEFAULT_CONTROLLER_CSS preserves DOM-contextual YouTube rules', () => {
