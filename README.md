@@ -1,28 +1,9 @@
-# [Install from Chrome Web Store][chrome-web-store-link]
-
-[![Chrome Web Store][chrome-web-store-version]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-users-badge]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-stars]][chrome-web-store-link]
+The Original:# [Install from Chrome Web Store][chrome-web-store-link]
+              [![Chrome Web Store][chrome-web-store-version]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-users-badge]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-stars]][chrome-web-store-link]
 
 **Video Speed Controller** gives you fine-grained control over any HTML5 video
 or audio element, on any site.
-
-## The science of accelerated playback
-
-**TL;DR** -- faster playback translates to better engagement and retention.
-
-The average adult reads at [250-300 words per minute][wpm-study] (wpm). Speech
-averages ~150 wpm; slide presentations often closer to 100 wpm. Given the
-choice, most viewers [speed up playback to ~1.3-1.5x][ms-study] to close the
-gap. Accelerated viewing [keeps attention longer][byu-study] -- faster delivery
-means higher engagement. With practice, many settle at 2x or above and find it
-[uncomfortable to return to 1x][mit-study].
-
-[wpm-study]: http://www.paperbecause.com/PIOP/files/f7/f7bb6bc5-2c4a-466f-9ae7-b483a2c0dca4.pdf
-[ms-study]: http://research.microsoft.com/en-us/um/redmond/groups/coet/compression/chi99/paper.pdf
-[byu-study]: http://www.enounce.com/docs/BYUPaper020319.pdf
-[mit-study]: http://alumni.media.mit.edu/~barons/html/avios92.html#beasleyalteredspeech
-
-HTML5 media elements expose a native playback rate API, but most players hide
-or artificially limit it. Speed adjustments should be effortless and frequent:
+ 
 we don't read at a fixed pace, and we shouldn't watch at one either.
 
 ## Features
@@ -60,10 +41,7 @@ shortcuts with different values for quick toggling. Click **Add New** in
 settings to create additional bindings. Refresh the page after making changes
 for them to take effect.
 
-## License
-
-(MIT License) - Copyright (c) 2014 Ilya Grigorik
-
+Original ## License (MIT License) - Copyright (c) 2014 Ilya Grigorik
 [chrome-web-store-version]: https://img.shields.io/chrome-web-store/v/nffaoalbilbmmfgbnbgppjihopabppdk?label=Chrome%20Web%20Store
 [chrome-web-store-users-badge]: https://img.shields.io/chrome-web-store/users/nffaoalbilbmmfgbnbgppjihopabppdk
 [chrome-web-store-stars]: https://img.shields.io/chrome-web-store/stars/nffaoalbilbmmfgbnbgppjihopabppdk
