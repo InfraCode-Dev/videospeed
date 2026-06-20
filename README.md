@@ -1,6 +1,3 @@
-The Original:# [Install from Chrome Web Store][chrome-web-store-link]
-              [![Chrome Web Store][chrome-web-store-version]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-users-badge]][chrome-web-store-link] [![Chrome Web Store Users][chrome-web-store-stars]][chrome-web-store-link]
-
 **Video Speed Controller** gives you fine-grained control over any HTML5 video
 or audio element, on any site.
  
