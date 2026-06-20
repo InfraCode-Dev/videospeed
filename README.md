@@ -39,9 +39,6 @@ settings to create additional bindings. Refresh the page after making changes
 for them to take effect.
 
 Original ## License (MIT License) - Copyright (c) 2014 Ilya Grigorik
-[chrome-web-store-version]: https://img.shields.io/chrome-web-store/v/nffaoalbilbmmfgbnbgppjihopabppdk?label=Chrome%20Web%20Store
-[chrome-web-store-users-badge]: https://img.shields.io/chrome-web-store/users/nffaoalbilbmmfgbnbgppjihopabppdk
-[chrome-web-store-stars]: https://img.shields.io/chrome-web-store/stars/nffaoalbilbmmfgbnbgppjihopabppdk
-[github-release-badge]: https://img.shields.io/github/v/release/igrigorik/videospeed
+
 [chrome-web-store-link]: https://chromewebstore.google.com/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk
 [github-release-link]: https://github.com/igrigorik/videospeed/releases
