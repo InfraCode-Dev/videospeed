@@ -84,18 +84,8 @@ class ShadowDOMManager {
         display: none;
         vertical-align: middle;
       }
-      
-      #controller.dragging {
-        cursor: -webkit-grabbing;
-        opacity: 0.7;
-      }
-      
-      #controller.dragging #controls {
-        display: inline-block;
-      }
-      
+
       .draggable {
-        cursor: -webkit-grab;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -104,13 +94,8 @@ class ShadowDOMManager {
         text-align: center;
         vertical-align: middle;
         box-sizing: border-box;
-        touch-action: none;
       }
-      
-      .draggable:active {
-        cursor: -webkit-grabbing;
-      }
-      
+
       button {
         opacity: 1;
         cursor: pointer;
@@ -154,13 +139,12 @@ class ShadowDOMManager {
     controller.id = 'controller';
     controller.style.cssText = `top:${top}; left:${left}; opacity:${opacity};`;
 
-    // Create draggable speed indicator
-    const draggable = document.createElement('span');
-    draggable.setAttribute('data-action', 'drag');
-    draggable.className = 'draggable';
-    draggable.style.cssText = `font-size: ${buttonSize}px;`;
-    draggable.textContent = speed;
-    controller.appendChild(draggable);
+    // Create speed indicator
+    const speedIndicator = document.createElement('span');
+    speedIndicator.className = 'draggable';
+    speedIndicator.style.cssText = `font-size: ${buttonSize}px;`;
+    speedIndicator.textContent = speed;
+    controller.appendChild(speedIndicator);
 
     // Create controls span
     const controls = document.createElement('span');
@@ -211,7 +195,7 @@ class ShadowDOMManager {
   }
 
   /**
-   * Get draggable speed indicator from shadow DOM
+   * Get speed indicator from shadow DOM
    * @param {ShadowRoot} shadow - Shadow root
    * @returns {HTMLElement} Speed indicator element
    */

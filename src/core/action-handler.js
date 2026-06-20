@@ -43,7 +43,7 @@ class ActionHandler {
       }
 
       if (!v.classList.contains('vsc-cancelled')) {
-        this.executeAction(action, value, v, e);
+        this.executeAction(action, value, v);
       }
     });
   }
@@ -53,10 +53,9 @@ class ActionHandler {
    * @param {string} action - Action to perform
    * @param {*} value - Action value
    * @param {HTMLMediaElement} video - Video element
-   * @param {Event} e - Event object (optional)
    * @private
    */
-  executeAction(action, value, video, e) {
+  executeAction(action, value, video) {
     switch (action) {
       case 'rewind':
         window.VSC.logger.debug('Rewind');
@@ -119,37 +118,9 @@ class ActionHandler {
         this.flashController(video.vsc.div, value);
         break;
 
-      case 'drag':
-        window.VSC.DragHandler.handleDrag(video, e);
-        break;
-
       case 'fast':
         window.VSC.logger.debug('Preferred speed');
         this.resetSpeed(video, value, this.config.getKeyBinding('reset'));
-        break;
-
-      case 'pause':
-        this.pause(video);
-        break;
-
-      case 'muted':
-        this.muted(video);
-        break;
-
-      case 'louder':
-        this.volumeUp(video, value);
-        break;
-
-      case 'softer':
-        this.volumeDown(video, value);
-        break;
-
-      case 'mark':
-        this.setMark(video);
-        break;
-
-      case 'jump':
-        this.jumpToMark(video);
         break;
 
       case 'SET_SPEED':
@@ -182,20 +153,6 @@ class ActionHandler {
   seek(video, seekSeconds) {
     // Use site-specific seeking (handlers return true if they handle it)
     window.VSC.siteHandlerManager.handleSeek(video, seekSeconds);
-  }
-
-  /**
-   * Toggle pause/play
-   * @param {HTMLMediaElement} video - Video element
-   */
-  pause(video) {
-    if (video.paused) {
-      window.VSC.logger.debug('Resuming video');
-      video.play();
-    } else {
-      window.VSC.logger.debug('Pausing video');
-      video.pause();
-    }
   }
 
   /**
@@ -237,69 +194,6 @@ class ActionHandler {
       window.VSC.logger.info(`Remembering speed ${currentSpeed} and resetting to ${target}`);
       video.vsc.speedBeforeReset = currentSpeed;
       this.adjustSpeed(video, target);
-    }
-  }
-
-  /**
-   * Toggle mute
-   * @param {HTMLMediaElement} video - Video element
-   */
-  muted(video) {
-    video.muted = video.muted !== true;
-  }
-
-  /**
-   * Increase volume
-   * @param {HTMLMediaElement} video - Video element
-   * @param {number} value - Amount to increase
-   */
-  volumeUp(video, value) {
-    video.volume = Math.min(1, (video.volume + value).toFixed(2));
-  }
-
-  /**
-   * Decrease volume
-   * @param {HTMLMediaElement} video - Video element
-   * @param {number} value - Amount to decrease
-   */
-  volumeDown(video, value) {
-    video.volume = Math.max(0, (video.volume - value).toFixed(2));
-  }
-
-  /**
-   * Set time marker
-   * @param {HTMLMediaElement} video - Video element
-   */
-  setMark(video) {
-    window.VSC.logger.debug('Adding marker');
-    video.vsc.mark = video.currentTime;
-  }
-
-  /**
-   * Jump to time marker, or jump back to previous position if already at marker
-   * @param {HTMLMediaElement} video - Video element
-   */
-  jumpToMark(video) {
-    if (
-      video.vsc.mark === null ||
-      video.vsc.mark === undefined ||
-      typeof video.vsc.mark !== 'number'
-    ) {
-      return;
-    }
-
-    const currentTime = video.currentTime;
-
-    if (video.vsc.positionBeforeJump !== null && Math.abs(currentTime - video.vsc.mark) < 0.05) {
-      // At the marker — toggle back to where we came from
-      window.VSC.logger.debug('Jumping back to pre-marker position');
-      video.currentTime = video.vsc.positionBeforeJump;
-      video.vsc.positionBeforeJump = null;
-    } else {
-      // Jump to marker, remembering current position
-      window.VSC.logger.debug('Jumping to marker');
-      video.vsc.positionBeforeJump = currentTime;
-      video.currentTime = video.vsc.mark;
     }
   }
 

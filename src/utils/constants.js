@@ -103,7 +103,7 @@ meet.google.com`.replace(regStrip, ''),
     AUDIO_MIN_HEIGHT: 20,
   };
 
-  const CUSTOM_ACTIONS_NO_VALUES = ['pause', 'muted', 'mark', 'jump', 'display'];
+  const CUSTOM_ACTIONS_NO_VALUES = ['display'];
 
   // Assign to global namespace
   window.VSC.Constants.LOG_LEVELS = LOG_LEVELS;

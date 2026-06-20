@@ -24,7 +24,6 @@ class VideoController {
 
     // Transient reset memory (not persisted, instance-specific)
     this.speedBeforeReset = null;
-    this.positionBeforeJump = null;
 
     // Attach controller to video element first (needed for adjustSpeed)
     target.vsc = this;

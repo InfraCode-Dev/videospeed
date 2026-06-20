@@ -94,12 +94,6 @@ const ACTION_OPTIONS = [
   ['advance', 'Advance'],
   ['reset', 'Reset speed'],
   ['fast', 'Preferred speed'],
-  ['muted', 'Mute'],
-  ['softer', 'Decrease volume'],
-  ['louder', 'Increase volume'],
-  ['pause', 'Pause'],
-  ['mark', 'Set marker'],
-  ['jump', 'Jump to marker'],
   ['display', 'Show/hide controller'],
 ];
 

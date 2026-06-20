@@ -27,8 +27,6 @@ const DEFAULT_V2_BINDINGS = {
   reset: { code: 'KeyR', key: 82, keyCode: 82, displayKey: 'r', value: 1.0, force: false },
   fast: { code: 'KeyG', key: 71, keyCode: 71, displayKey: 'g', value: 1.8, force: false },
   display: { code: 'KeyV', key: 86, keyCode: 86, displayKey: 'v', value: 0, force: false },
-  mark: { code: 'KeyM', key: 77, keyCode: 77, displayKey: 'm', value: 0, force: false },
-  jump: { code: 'KeyJ', key: 74, keyCode: 74, displayKey: 'j', value: 0, force: false },
 };
 
 /**
@@ -103,7 +101,7 @@ describe('Migration', () => {
     expect(result.skipped).toBe('no-bindings');
   });
 
-  it('Existing v1 storage with all defaults should migrate all 9 predefined bindings', () => {
+  it('Existing v1 storage with all defaults should migrate all 7 predefined bindings', () => {
     const v1Bindings = [
       { action: 'slower', key: 83, value: 0.1, force: false, predefined: true },
       { action: 'faster', key: 68, value: 0.1, force: false, predefined: true },
@@ -112,14 +110,12 @@ describe('Migration', () => {
       { action: 'reset', key: 82, value: 1.0, force: false, predefined: true },
       { action: 'fast', key: 71, value: 1.8, force: false, predefined: true },
       { action: 'display', key: 86, value: 0, force: false, predefined: true },
-      { action: 'mark', key: 77, value: 0, force: false, predefined: true },
-      { action: 'jump', key: 74, value: 0, force: false, predefined: true },
     ];
 
     const result = migrateBindings({ keyBindings: v1Bindings, schemaVersion: 1 });
 
     expect(result.schemaVersion).toBe(2);
-    expect(result.stats.predefinedCount).toBe(9);
+    expect(result.stats.predefinedCount).toBe(7);
     expect(result.stats.customCount).toBe(0);
     expect(result.stats.unmappableCount).toBe(0);
 
@@ -250,15 +246,13 @@ describe('Migration', () => {
   });
 
   it('Missing predefined actions should be added by Phase 4', () => {
-    // Only 7 of 9 predefined actions present (missing display, jump)
+    // Only 5 of 7 predefined actions present (missing display, fast)
     const v1Bindings = [
       { action: 'slower', key: 83, value: 0.1, force: false, predefined: true },
       { action: 'faster', key: 68, value: 0.1, force: false, predefined: true },
       { action: 'rewind', key: 90, value: 10, force: false, predefined: true },
       { action: 'advance', key: 88, value: 10, force: false, predefined: true },
       { action: 'reset', key: 82, value: 1.0, force: false, predefined: true },
-      { action: 'fast', key: 71, value: 1.8, force: false, predefined: true },
-      { action: 'mark', key: 77, value: 0, force: false, predefined: true },
     ];
 
     const result = migrateBindings({ keyBindings: v1Bindings, schemaVersion: 1 });
@@ -268,9 +262,9 @@ describe('Migration', () => {
     expect(display.code).toBe('KeyV');
     expect(display.predefined).toBe(true);
 
-    const jump = result.keyBindings.find((b) => b.action === 'jump');
-    expect(jump).toBeDefined();
-    expect(jump.code).toBe('KeyJ');
+    const fast = result.keyBindings.find((b) => b.action === 'fast');
+    expect(fast).toBeDefined();
+    expect(fast.code).toBe('KeyG');
   });
 
   it('Migrated bindings should NOT have modifiers object', () => {

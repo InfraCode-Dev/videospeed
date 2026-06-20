@@ -42,7 +42,6 @@ export async function loadCoreModules() {
 
   // UI components
   await import('../../src/ui/controls.js');
-  await import('../../src/ui/drag-handler.js');
   await import('../../src/ui/shadow-dom.js');
   await import('../../src/ui/vsc-controller-element.js');
 
