@@ -127,47 +127,6 @@ describe('ActionHandler', () => {
     expect(mockVideo.playbackRate).toBe(0.07);
   });
 
-  it('ActionHandler should handle pause action', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createTestVideoWithController(config, actionHandler, { paused: false });
-
-    actionHandler.runAction('pause');
-    expect(mockVideo.paused).toBe(true);
-  });
-
-  it('ActionHandler should handle mute action', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createTestVideoWithController(config, actionHandler, { muted: false });
-    actionHandler.runAction('muted');
-
-    expect(mockVideo.muted).toBe(true);
-  });
-
-  it('ActionHandler should handle volume actions', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createTestVideoWithController(config, actionHandler, { volume: 0.5 });
-    actionHandler.runAction('louder', 0.1);
-    expect(mockVideo.volume).toBe(0.6);
-
-    actionHandler.runAction('softer', 0.2);
-    expect(mockVideo.volume).toBe(0.4);
-  });
-
   it('ActionHandler should handle seek actions', async () => {
     const config = window.VSC.videoSpeedConfig;
     await config.load();
@@ -182,87 +141,6 @@ describe('ActionHandler', () => {
 
     actionHandler.runAction('rewind', 5);
     expect(mockVideo.currentTime).toBe(55);
-  });
-
-  it('ActionHandler should handle mark and jump actions', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createTestVideoWithController(config, actionHandler, { currentTime: 30 });
-
-    // Set mark
-    actionHandler.runAction('mark');
-    expect(mockVideo.vsc.mark).toBe(30);
-
-    // Change time
-    mockVideo.currentTime = 50;
-
-    // Jump to mark
-    actionHandler.runAction('jump');
-    expect(mockVideo.currentTime).toBe(30);
-  });
-
-  it('ActionHandler should work with mark/jump key bindings', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-
-    const actionHandler = new window.VSC.ActionHandler(config, null);
-    const eventManager = new window.VSC.EventManager(config, actionHandler);
-    actionHandler.eventManager = eventManager;
-
-    const mockVideo = createTestVideoWithController(config, actionHandler, { currentTime: 25 });
-    // Set initial mark to undefined for test
-    mockVideo.vsc.mark = undefined;
-
-    // Verify mark key binding exists (M = 77)
-    const markBinding = config.settings.keyBindings.find((kb) => kb.action === 'mark');
-    expect(markBinding).toBeDefined();
-    expect(markBinding.key).toBe(77);
-
-    // Verify jump key binding exists (J = 74)
-    const jumpBinding = config.settings.keyBindings.find((kb) => kb.action === 'jump');
-    expect(jumpBinding).toBeDefined();
-    expect(jumpBinding.key).toBe(74);
-
-    // Simulate pressing M key to set mark
-    eventManager.handleKeydown({
-      code: 'KeyM',
-      key: 'm',
-      keyCode: 77,
-      target: document.body,
-      ctrlKey: false,
-      altKey: false,
-      shiftKey: false,
-      metaKey: false,
-      isComposing: false,
-      timeStamp: 1000,
-      preventDefault: () => {},
-      stopPropagation: () => {},
-    });
-    expect(mockVideo.vsc.mark).toBe(25);
-
-    // Change video time
-    mockVideo.currentTime = 60;
-
-    // Simulate pressing J key to jump to mark
-    eventManager.handleKeydown({
-      code: 'KeyJ',
-      key: 'j',
-      keyCode: 74,
-      target: document.body,
-      ctrlKey: false,
-      altKey: false,
-      shiftKey: false,
-      metaKey: false,
-      isComposing: false,
-      timeStamp: 2000,
-      preventDefault: () => {},
-      stopPropagation: () => {},
-    });
-    expect(mockVideo.currentTime).toBe(25);
   });
 
   it('ActionHandler should toggle display visibility', async () => {

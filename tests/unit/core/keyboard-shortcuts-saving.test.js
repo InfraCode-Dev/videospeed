@@ -34,17 +34,7 @@ describe('KeyboardShortcutsSaving', () => {
     expect(defaults.keyBindings.length > 0).toBe(true);
 
     // Should have all expected default bindings
-    const expectedActions = [
-      'slower',
-      'faster',
-      'rewind',
-      'advance',
-      'reset',
-      'fast',
-      'display',
-      'mark',
-      'jump',
-    ];
+    const expectedActions = ['slower', 'faster', 'rewind', 'advance', 'reset', 'fast', 'display'];
     const actualActions = defaults.keyBindings.map((b) => b.action);
 
     expectedActions.forEach((action) => {
@@ -182,17 +172,7 @@ describe('KeyboardShortcutsSaving', () => {
     await config.load();
 
     // Should have all expected default shortcuts
-    const requiredActions = [
-      'slower',
-      'faster',
-      'rewind',
-      'advance',
-      'reset',
-      'fast',
-      'display',
-      'mark',
-      'jump',
-    ];
+    const requiredActions = ['slower', 'faster', 'rewind', 'advance', 'reset', 'fast', 'display'];
 
     for (const action of requiredActions) {
       const binding = config.settings.keyBindings.find((b) => b.action === action);

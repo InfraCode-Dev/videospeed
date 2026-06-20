@@ -7,7 +7,6 @@
 // Core utilities and constants - must load first
 import '../utils/constants.js';
 import '../utils/logger.js';
-import '../utils/debug-helper.js';
 import '../utils/dom-utils.js';
 import '../utils/event-manager.js';
 
@@ -32,7 +31,6 @@ import '../core/video-controller.js';
 
 // UI components - depends on core functionality
 import '../ui/controls.js';
-import '../ui/drag-handler.js';
 import '../ui/shadow-dom.js';
 import '../ui/vsc-controller-element.js';
 

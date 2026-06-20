@@ -1,5 +1,5 @@
 /**
- * Tests for unified pointer-based drag and double-click-to-reset
+ * Tests for double-click-to-reset on the speed indicator
  */
 
 import {
@@ -10,7 +10,7 @@ import {
 import { createMockVideo, createMockDOM } from '../../helpers/test-utils.js';
 let mockDOM;
 
-describe('DragAndReset', () => {
+describe('SpeedIndicatorReset', () => {
   beforeEach(() => {
     installChromeMock();
     resetMockStorage();
@@ -35,67 +35,7 @@ describe('DragAndReset', () => {
     }
   });
 
-  // --- DragHandler tests ---
-
-  it('DragHandler.handleDrag uses pointer capture when pointerId is present', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createMockVideo();
-    mockDOM.container.appendChild(mockVideo);
-    const controller = new window.VSC.VideoController(mockVideo, null, config, actionHandler);
-
-    const shadowController = controller.div.shadowRoot.querySelector('#controller');
-    const draggable = controller.div.shadowRoot.querySelector('.draggable');
-
-    let captured = false;
-    draggable.setPointerCapture = () => {
-      captured = true;
-    };
-    draggable.releasePointerCapture = () => {};
-
-    // Simulate pointerdown with pointerId
-    const pointerEvent = new Event('pointerdown', { bubbles: true });
-    pointerEvent.clientX = 100;
-    pointerEvent.clientY = 100;
-    pointerEvent.pointerId = 1;
-    Object.defineProperty(pointerEvent, 'target', { value: draggable, writable: true });
-
-    window.VSC.DragHandler.handleDrag(mockVideo, pointerEvent);
-
-    expect(captured).toBe(true);
-    expect(shadowController.classList.contains('dragging')).toBe(true);
-  });
-
-  it('DragHandler.handleDrag falls back to mouse events without pointerId', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createMockVideo();
-    mockDOM.container.appendChild(mockVideo);
-    const controller = new window.VSC.VideoController(mockVideo, null, config, actionHandler);
-
-    const shadowController = controller.div.shadowRoot.querySelector('#controller');
-    const draggable = controller.div.shadowRoot.querySelector('.draggable');
-
-    // Simulate mousedown without pointerId
-    const mouseEvent = new Event('mousedown', { bubbles: true });
-    mouseEvent.clientX = 50;
-    mouseEvent.clientY = 50;
-    Object.defineProperty(mouseEvent, 'target', { value: draggable, writable: true });
-
-    window.VSC.DragHandler.handleDrag(mockVideo, mouseEvent);
-
-    expect(shadowController.classList.contains('dragging')).toBe(true);
-  });
-
-  // --- Double-click-to-reset tests ---
-
-  it('ControlsManager sets up dblclick handler on draggable', async () => {
+  it('ControlsManager sets up dblclick handler on speed indicator', async () => {
     const config = window.VSC.videoSpeedConfig;
     await config.load();
     const eventManager = new window.VSC.EventManager(config, null);
@@ -121,27 +61,12 @@ describe('DragAndReset', () => {
       return origRunAction(action, value, e);
     };
 
-    // Dispatch dblclick on the draggable
-    const draggable = controller.div.shadowRoot.querySelector('.draggable');
+    // Dispatch dblclick on the speed indicator
+    const speedIndicator = controller.div.shadowRoot.querySelector('.draggable');
     const dblClickEvent = new Event('dblclick', { bubbles: true, cancelable: true });
-    Object.defineProperty(dblClickEvent, 'target', { value: draggable, writable: true });
-    draggable.dispatchEvent(dblClickEvent);
+    Object.defineProperty(dblClickEvent, 'target', { value: speedIndicator, writable: true });
+    speedIndicator.dispatchEvent(dblClickEvent);
 
     expect(resetCalled).toBe(true);
-  });
-
-  it('Draggable element has touch-action: none in style', async () => {
-    const config = window.VSC.videoSpeedConfig;
-    await config.load();
-    const eventManager = new window.VSC.EventManager(config, null);
-    const actionHandler = new window.VSC.ActionHandler(config, eventManager);
-
-    const mockVideo = createMockVideo();
-    mockDOM.container.appendChild(mockVideo);
-    const controller = new window.VSC.VideoController(mockVideo, null, config, actionHandler);
-
-    // Check that the shadow DOM style contains touch-action: none for .draggable
-    const style = controller.div.shadowRoot.querySelector('style');
-    expect(style.textContent.includes('touch-action: none')).toBe(true);
   });
 });

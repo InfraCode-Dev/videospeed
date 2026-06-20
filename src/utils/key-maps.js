@@ -18,8 +18,6 @@ export const PREDEFINED_CODE_MAP = Object.freeze({
   82: { code: 'KeyR', displayKey: 'r' }, // reset
   71: { code: 'KeyG', displayKey: 'g' }, // fast
   86: { code: 'KeyV', displayKey: 'v' }, // display
-  77: { code: 'KeyM', displayKey: 'm' }, // mark
-  74: { code: 'KeyJ', displayKey: 'j' }, // jump
 });
 
 /**
@@ -211,8 +209,6 @@ export const PREDEFINED_ACTIONS = [
   'reset',
   'fast',
   'display',
-  'mark',
-  'jump',
 ];
 
 /**
@@ -228,8 +224,6 @@ export const DEFAULT_BINDINGS = Object.freeze({
   reset: { code: 'KeyR', key: 82, keyCode: 82, displayKey: 'r', value: 1.0 },
   fast: { code: 'KeyG', key: 71, keyCode: 71, displayKey: 'g', value: 1.8 },
   display: { code: 'KeyV', key: 86, keyCode: 86, displayKey: 'v', value: 0 },
-  mark: { code: 'KeyM', key: 77, keyCode: 77, displayKey: 'm', value: 0 },
-  jump: { code: 'KeyJ', key: 74, keyCode: 74, displayKey: 'j', value: 0 },
 });
 
 /** event.code values that must not be recorded as shortcuts. */
