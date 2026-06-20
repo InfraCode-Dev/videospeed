@@ -19,7 +19,7 @@ const common = {
   bundle: true,
   sourcemap: isRelease ? false : false, // set true locally if debugging
   minify: isRelease,
-  target: 'chrome114',
+  target: ['chrome111', 'firefox128'],
   platform: 'browser',
   legalComments: 'none',
   format: 'iife', // preserve side-effects and simple global init without ESM runtime
