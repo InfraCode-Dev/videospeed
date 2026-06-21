@@ -1,0 +1,77 @@
+name: Release
+
+# Builds the extension zip and publishes it as a downloadable GitHub Release.
+#
+# - Push a version tag (e.g. `v0.10.3`) to build + create a draft release with
+#   the zip attached. The tag must match the version in package.json.
+# - Or trigger manually from the Actions tab ("Run workflow") to just build and
+#   upload the zip as a downloadable artifact (no release is created).
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+# Required for `gh release create` to create the release.
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish release zip
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history so release notes can diff against prior tags
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: '1'
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build (release / minified)
+        run: npm run build:release
+
+      - name: Test
+        run: npm test
+
+      - name: Package zip
+        run: node scripts/package-release.js
+
+      - name: Verify tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$PKG_VERSION" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}. Bump package.json or retag."
+            exit 1
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: videospeed-release-zip
+          path: release/videospeed-*.zip
+          retention-days: 14
+
+      - name: Create GitHub Release (draft)
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            release/videospeed-*.zip \
+            --title "Video Speed Controller ${GITHUB_REF_NAME}" \
+            --generate-notes \
+            --draft

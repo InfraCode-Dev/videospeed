@@ -87,7 +87,9 @@ a POSIX shell. Windows users need:
      **Developer mode** (top-right toggle), click **Load unpacked**, and select
      the **`dist/`** folder.
    - **Firefox** — open `about:debugging#/runtime/this-firefox`, click
-     **Load Temporary Add-on…**, and select **`dist/manifest.json`**.
+     **Load Temporary Add-on…**, and select **`dist/manifest.json`**. This is
+     removed when Firefox restarts; see **Optional → Firefox: persistent
+     install** below to keep it installed.
 
    > ⚠️ Always point the browser at the build output. The `manifest.json` in the
    > repository root references built paths (`ui/…`, `background.js`, the bundled
@@ -109,6 +111,29 @@ a POSIX shell. Windows users need:
     write up a description of your changes.
 
 ## Optional
+
+### Firefox: persistent install (survives restart)
+
+"Load Temporary Add-on…" is removed when Firefox restarts. To keep the add-on
+installed, load the packaged zip instead:
+
+1. Build and package the zip:
+
+   ```sh
+   npm run release
+   ```
+
+   This produces `release/videospeed-<version>.zip`.
+
+2. In **Firefox Developer Edition, Nightly, or ESR**, open `about:config` and
+   set **`xpinstall.signatures.required`** to **`false`**. (Release and Beta
+   Firefox reject unsigned add-ons and can't override this — use the temporary
+   add-on flow there, or an AMO-signed build.)
+
+3. Open `about:addons` → the gear menu ⚙ → **Install Add-on From File…** and
+   select `release/videospeed-<version>.zip`.
+
+Unlike a temporary add-on, this install persists across browser restarts.
 
 ### Run Pre-Commit Checks Locally
 
