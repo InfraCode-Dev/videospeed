@@ -68,34 +68,44 @@ a POSIX shell. Windows users need:
    > [prettier](https://prettier.io/). If it is not it may be autoformatted for
    > you or your pull request may be rejected.
 
-7. Next, open Chrome/Brave/Chromium and enable developer mode via
-   `Settings > Extensions > Manage Extensions` and toggle `Developer mode` in
-   the top-right corner.
-
-8. Install dependencies
+7. Install dependencies
 
    ```sh
    npm install
    ```
 
-9. Build the extension
+8. Build the extension (output goes to `dist/`)
 
    ```sh
    npm run build
    ```
 
-10. Click `Load unpacked` and select the `dist/` folder (the build output).
+   While iterating, `npm run dev` rebuilds `dist/` automatically on save.
 
-11. Try out your changes, make sure they work as expected
+9. Load the **built `dist/` output** into your browser — not the project root:
+   - **Chrome / Brave / Chromium** — open `chrome://extensions`, enable
+     **Developer mode** (top-right toggle), click **Load unpacked**, and select
+     the **`dist/`** folder.
+   - **Firefox** — open `about:debugging#/runtime/this-firefox`, click
+     **Load Temporary Add-on…**, and select **`dist/manifest.json`**.
 
-12. Commit and push your changes to github
+   > ⚠️ Always point the browser at the build output. The `manifest.json` in the
+   > repository root references built paths (`ui/…`, `background.js`, the bundled
+   > scripts) that only exist after `npm run build`. Loading the root folder — or,
+   > in Firefox, selecting the root `manifest.json` instead of `dist/manifest.json`
+   > — makes the browser report **"File not found"** for pages such as the
+   > options page.
+
+10. Try out your changes, make sure they work as expected
+
+11. Commit and push your changes to github
 
     ```sh
     git commit -m "Awesome description of some awesome changes."
     git push
     ```
 
-13. Open your branch up on the github website then click `New pull request` and
+12. Open your branch up on the github website then click `New pull request` and
     write up a description of your changes.
 
 ## Optional
